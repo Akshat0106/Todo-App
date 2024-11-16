@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="signup">
+        <input type="text" class="signup-username" placeholder="Enter username">
+        <input type="password" class="signup-password" placeholder="Enter password">
+        <button onclick="signup()">Signup</button>
+        <button onclick="moveToSignIn()">Already a user? Sig In</button>
+    </div>
+
+    <div id="signin">
+        <input type="text" class="signin-username" placeholder="Enter username">
+        <input type="password" class="signin-password" placeholder="Enter password">
+
+        <button onclick="signin()">Sigin</button>
+        <button onclick="moveToSignUp()">Don't have an account? Signup</button>
+    </div>
+
+    <div id="todo-container" style="display: none;">
+        <div>
+            <h1>To-Do List</h1>
+            <button onclick="logout()" id="log-out-btn">Log Oout</button>
+        </div>
+
+        <div id="todolist-inner">
+            <input type="text" id="task" placeholder="Add Todo...">
+            <button onclick="addtodo()">Add</button>
+        </div>
+        <div id="todo-list"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
