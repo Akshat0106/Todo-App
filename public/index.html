@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js" integrity="sha512-DdX/YwF5e41Ok+AI81HI8f5/5UsoxCVT9GKYZRIzpLxb8Twz4ZwPPX+jQMwMhNQ9b5+zDEefc+dcvQoPWGNZ3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-    <div id="signup">
+    <div id="signup" style="display: none;">
         <input type="text" class="signup-username" placeholder="Enter username">
         <input type="password" class="signup-password" placeholder="Enter password">
         <button onclick="signup()">Signup</button>
         <button onclick="moveToSignIn()">Already a user? Sig In</button>
     </div>
 
-    <div id="signin">
+    <div id="signin" style="display: block;">
         <input type="text" class="signin-username" placeholder="Enter username">
         <input type="password" class="signin-password" placeholder="Enter password">
 
