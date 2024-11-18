@@ -1,10 +1,11 @@
 const express=require('express')
 const jwt=require('jsonwebtoken')
 const path=require('path')
+const cors=require('cors')
 
 const app=express()
 app.use(express.json())
-
+app.use(cors())
 const users=[]
 const todos=[]
 
@@ -12,7 +13,7 @@ const JWT_SECRET="hellorandomuser"
 
 app.use(express.static(path.join(__dirname,"public")))
 
-app.post('/sigup',function(req,res){
+app.post('/signup',function(req,res){
     const username=req.body.username
     const password=req.body.password
 
@@ -55,9 +56,9 @@ app.post("/signin",function(req,res){
     const foundUser=users.find((user)=>user.username===username && user.password===password)
 
     if(foundUser){
-        const token=jst.sign({username},JWT_SECRET)
+        const token=jwt.sign({username},JWT_SECRET)
         res.json({
-            token,message:"You are signned in successfully!"
+            token,message:"You are signned in successfully!",username
         })
     }else{
         res.json({
@@ -75,7 +76,8 @@ function auth(req,res,next){
     }
     try{
         const decode=jwt.verify(token,JWT_SECRET)
-        req.username=decode.usernamenext()
+        req.username=decode.username
+        next()
     }catch(error){
         res.json({
             message:"Invalid token"
@@ -84,7 +86,7 @@ function auth(req,res,next){
 }
 
 app.get('/todos',auth,function(req,res){
-    const curruser=req.user
+    const curruser=req.username
 
     const usertodo=todos.filter((todo)=>todo.username==curruser)
 
@@ -93,7 +95,7 @@ app.get('/todos',auth,function(req,res){
 
 app.post('/todos',auth,function(req,res){
     const title=req.body.title
-    const curruser=req.body.username
+    const curruser=req.username
 
     if(!title){
         return res.json({
@@ -115,7 +117,7 @@ app.post('/todos',auth,function(req,res){
 app.put("/todos/:id",auth,function(req,res){
     const id=req.params.id
     const title=req.body.title
-    const curruser=req.body.username
+    const curruser=req.username
 
     const todo=todos.find((todo)=>todo.id===parseInt(id) && todo.username===curruser)
 
@@ -132,7 +134,7 @@ app.put("/todos/:id",auth,function(req,res){
 
 app.delete('/todos/:id',auth,function(req,res){
     const id=req.params.id;
-    const curruser=req.body.username
+    const curruser=req.username
 
     const todoIndex=todos.findIndex((todo)=>todo.id===parseInt(id) && todo.username===curruser)
 
@@ -143,14 +145,14 @@ app.delete('/todos/:id',auth,function(req,res){
     }
     todos.splice(todoIndex,1)
 
-    res.jsob({
+    res.json({
         message:"Todo deleted successfully"
     })
 })
 
-app.post("/todos/:id",auth,function(req,res){
+app.put("/todos/:id/done",auth,function(req,res){
     const id=req.params.id
-    const curruser=req.body.username
+    const curruser=req.username
 
     const todo=todos.find((todo)=>todo.id===parseInt(id) && todo.username===curruser)
 
